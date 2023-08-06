@@ -1,7 +1,10 @@
 package com.ambrosia.gerbilhelp;
 
+import com.ambrosia.gerbilhelp.internal.RequestManager;
+
 public class Main {
 	public static void main(String[] args) {
-		System.out.println("Hello world!");
+		var result = RequestManager.makeRequest("Derivatives");
+		System.out.println(result);
 	}
 }

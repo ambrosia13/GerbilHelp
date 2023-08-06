@@ -1,0 +1,3 @@
+[submodule "GerbilHelp_private"]
+	path = GerbilHelp_private
+	url = https://github.com/ambrosia13/GerbilHelp_private.git
