@@ -5,10 +5,12 @@ import com.google.gson.Gson;
 import java.util.List;
 
 public class ResultParser {
-	record Items(List<Result> items) {}
+	private static final Gson gson = new Gson();
+
+	// Used to deserialize JSON, and for absolutely nothing else
+	private record Items(List<Result> items) {}
 
 	public static List<Result> getResults(String json) {
-		var gson = new Gson();
 		return gson.fromJson(json, Items.class).items;
 	}
 }

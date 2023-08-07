@@ -6,7 +6,9 @@ plugins {
 group = 'com.ambrosia.gerbilhelp'
 version = '1.0-SNAPSHOT'
 
-mainClassName = group + '.Main'
+application {
+	mainClassName = group + '.Main'
+}
 
 repositories {
     mavenCentral()
