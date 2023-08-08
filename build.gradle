@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'com.ambrosia.gerbilhelp'
-version = '1.0-SNAPSHOT'
+version = '1.0.0'
 
 application {
 	mainClassName = group + '.Main'
