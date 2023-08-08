@@ -4,8 +4,11 @@ import com.ambrosia.gerbilhelp.internal.RequestResult;
 import com.ambrosia.gerbilhelp.search.Search;
 import com.ambrosia.gerbilhelp.search.parse.ResultParser;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.util.Objects;
 
 public class Window {
 	private static final class Colors {
@@ -19,7 +22,23 @@ public class Window {
 	private Search search;
 
 	public Window() {
-		frame = new JFrame("Gerbil Help");
+		JFrame frame1;
+		try {
+			frame1 = new JFrame("Gerbil Help") {
+				private final Image background = ImageIO.read(Objects.requireNonNull(getClass().getResource("/gerbil.png")));
+
+				@Override
+				public void paint(Graphics g) {
+					super.paint(g);
+					g.drawImage(background, 580, 100, null);
+				}
+			};
+		} catch (IOException e) {
+			System.out.println("Failed to draw background image, substituting with no background");
+			frame1 = new JFrame("Gerbil Help");
+		}
+
+		frame = frame1;
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		frame.setPreferredSize(new Dimension(800, 800));
@@ -42,9 +61,6 @@ public class Window {
 	}
 
 	private void config() {
-		final var title = new JLabel("Gerbil Help", SwingConstants.CENTER);
-		this.frame.getContentPane().add(title, BorderLayout.BEFORE_FIRST_LINE);
-
 		final var panel = new JPanel();
 		panel.setBackground(Colors.background);
 
@@ -70,11 +86,11 @@ public class Window {
 		panel.add(subjectLabel);
 
 		// Add buttons to select the subject
-		var math = (JButton) layout.manage(new JButton("Math"), buttonWidth, buttonHeight, true, false);
-		var english = (JButton) layout.manage(new JButton("English"), buttonWidth, buttonHeight, true, false);
-		var science = (JButton) layout.manage(new JButton("Science"), buttonWidth, buttonHeight, true, false);
-		var history = (JButton) layout.manage(new JButton("History"), buttonWidth, buttonHeight, true, false);
-		var computerScience = (JButton) layout.manage(new JButton("Comp. Sci"), buttonWidth, buttonHeight, true, false);
+		var math = (CustomButton) layout.manage(new CustomButton("Math"), buttonWidth, buttonHeight, true, false);
+		var english = (CustomButton) layout.manage(new CustomButton("English"), buttonWidth, buttonHeight, true, false);
+		var science = (CustomButton) layout.manage(new CustomButton("Science"), buttonWidth, buttonHeight, true, false);
+		var history = (CustomButton) layout.manage(new CustomButton("History"), buttonWidth, buttonHeight, true, false);
+		var computerScience = (CustomButton) layout.manage(new CustomButton("Comp. Sci"), buttonWidth, buttonHeight, true, false);
 
 		layout.nextLineY(buttonHeight);
 
@@ -98,7 +114,7 @@ public class Window {
 
 		// Add the text box for the topic
 		var topic = (JTextField) layout.manage(new JTextField(), textBoxSizeX, textBoxSizeY, true, false);
-		var topicDoneButton = (JButton) layout.manage(new JButton("Done"), buttonWidth, buttonHeight, true, false);
+		var topicDoneButton = (CustomButton) layout.manage(new CustomButton("Done"), buttonWidth, buttonHeight, true, false);
 
 		layout.nextLineY(textBoxSizeY);
 
@@ -118,7 +134,7 @@ public class Window {
 
 		// Add the text box for the question
 		var question = (JTextField) layout.manage(new JTextField(), textBoxSizeX, textBoxSizeY, true, false);
-		var questionDoneButton = (JButton) layout.manage(new JButton("Done"), buttonWidth, buttonHeight, true, false);
+		var questionDoneButton = (CustomButton) layout.manage(new CustomButton("Done"), buttonWidth, buttonHeight, true, false);
 
 		layout.nextLineY(textBoxSizeY);
 
@@ -137,7 +153,7 @@ public class Window {
 		panel.add(answerLabel);
 
 		// Add a button to complete the search
-		var getAnswerButton = (JButton) layout.manage(new JButton("Get Answer"), buttonWidth, buttonHeight, true, false);
+		var getAnswerButton = (CustomButton) layout.manage(new CustomButton("Get Answer"), buttonWidth, buttonHeight, true, false);
 		getAnswerButton.addActionListener(e -> updateSearchText());
 
 		layout.nextLineY(buttonHeight);
